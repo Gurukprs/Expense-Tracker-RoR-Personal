@@ -10,7 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_02_16_100220) do
+ActiveRecord::Schema.define(version: 2026_02_16_123245) do
+
+  create_table "expenses", force: :cascade do |t|
+    t.decimal "amount"
+    t.string "category"
+    t.string "custom_category"
+    t.date "date"
+    t.text "description"
+    t.integer "money_cycle_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["money_cycle_id"], name: "index_expenses_on_money_cycle_id"
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.decimal "amount"
+    t.string "source"
+    t.date "date"
+    t.integer "money_cycle_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["money_cycle_id"], name: "index_incomes_on_money_cycle_id"
+  end
+
+  create_table "money_cycles", force: :cascade do |t|
+    t.string "title"
+    t.date "started_on"
+    t.integer "status"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_money_cycles_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,4 +56,7 @@ ActiveRecord::Schema.define(version: 2026_02_16_100220) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "expenses", "money_cycles"
+  add_foreign_key "incomes", "money_cycles"
+  add_foreign_key "money_cycles", "users"
 end
