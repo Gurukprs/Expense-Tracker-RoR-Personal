@@ -1,0 +1,32 @@
+<div class="card p-3 mb-4">
+  <h5>Add Income</h5>
+
+  <%= form_with model: [money_cycle, income] do |f| %>
+    <div class="row g-2">
+      <div class="col-12 col-md">
+        <%= f.number_field :amount,
+              class: "form-control",
+              placeholder: "Amount",
+              required: true %>
+      </div>
+
+      <div class="col-12 col-md">
+        <%= f.text_field :source,
+              class: "form-control",
+              placeholder: "Source (GPay)",
+              required: true %>
+      </div>
+
+      <div class="col-12 col-md">
+        <%= f.date_field :date,
+              class: "form-control",
+              required: true %>
+      </div>
+
+      <div class="col-12 col-md-auto">
+        <%= f.submit "Add",
+              class: "btn btn-success w-100" %>
+      </div>
+    </div>
+  <% end %>
+</div>

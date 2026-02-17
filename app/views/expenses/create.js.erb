@@ -1,0 +1,13 @@
+document.getElementById("expense-list").innerHTML = `
+  <%= j render("expenses/expense_table",
+        expenses: @expenses,
+        money_cycle: @money_cycle) %>
+`;
+
+document.getElementById("cycle-summary").innerHTML = `
+  <%= j render("money_cycles/summary",
+        money_cycle: @money_cycle) %>
+`;
+
+// Reset form
+document.querySelector("form").reset();

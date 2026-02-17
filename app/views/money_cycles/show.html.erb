@@ -1,105 +1,21 @@
 <h2><%= @money_cycle.title %></h2>
 
-<div class="card p-3 mb-4 shadow-sm">
-  <p>Total Income: ₹<%= @money_cycle.total_income.round(2) %></p>
-  <p>Total Expense: ₹<%= @money_cycle.total_expense.round(2) %></p>
-  <h5>Balance: ₹<%= @money_cycle.balance.round(2) %></h5>
-  <p>Average per Day: ₹<%= @money_cycle.average_per_day.round(2) %></p>
-
-    <% case @money_cycle.burn_rate_status %>
-        <% when "safe" %>
-            <div class="alert alert-success mt-2">
-            🟢 You are spending safely.
-            </div>
-        <% when "moderate" %>
-            <div class="alert alert-warning mt-2">
-            🟡 Be cautious with spending.
-            </div>
-        <% when "danger" %>
-            <div class="alert alert-danger mt-2">
-            🔴 Spending too fast!
-            </div>
-    <% end %>
+<div id="cycle-summary">
+  <%= render "summary", money_cycle: @money_cycle %>
 </div>
 
-<div class="card p-3 mb-4">
-  <h5>Add Income</h5>
-  <%= form_with model: [@money_cycle, @income] do |f| %>
-    <div class="row">
-      <div class="col">
-        <%= f.number_field :amount, class: "form-control", placeholder: "Amount" %>
-      </div>
-      <div class="col">
-        <%= f.text_field :source, class: "form-control", placeholder: "Source (GPay)" %>
-      </div>
-      <div class="col">
-        <%= f.date_field :date, class: "form-control" %>
-      </div>
-      <div class="col">
-        <%= f.submit "Add", class: "btn btn-success" %>
-      </div>
-    </div>
-  <% end %>
-</div>
+<%= render "incomes/form",
+      money_cycle: @money_cycle,
+      income: @income %>
 
-<div class="card p-3 mb-4">
-  <h5>Add Expense</h5>
-  <%= form_with model: [@money_cycle, @expense] do |f| %>
-    <div class="row">
-      <div class="col">
-        <%= f.number_field :amount, class: "form-control", placeholder: "Amount" %>
-      </div>
-      <div class="col">
-        <%= f.select :category, Expense::CATEGORIES, {}, 
-            class: "form-control", 
-            id: "category-select" %>
-        </div>
+<%= render "expenses/form",
+      money_cycle: @money_cycle,
+      expense: @expense %>
 
-        <div class="col" id="custom-category-field" style="display:none;">
-        <%= f.text_field :custom_category, 
-            class: "form-control", 
-            placeholder: "Custom Category" %>
-        </div>
-
-      </div>
-      <div class="col">
-        <%= f.date_field :date, class: "form-control" %>
-      </div>
-      <div class="col">
-        <%= f.submit "Add", class: "btn btn-danger" %>
-      </div>
-    </div>
-  <% end %>
-</div>
-
-<div class="card p-3 shadow-sm">
-  <h5>Expenses</h5>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Category</th>
-        <th>Amount</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @expenses.each do |expense| %>
-        <tr>
-          <td><%= expense.date %></td>
-          <td><%= expense.final_category %></td>
-          <td>₹<%= expense.amount %></td>
-          <td>
-            <%= link_to "Delete",
-                money_cycle_expense_path(@money_cycle, expense),
-                method: :delete,
-                class: "btn btn-sm btn-outline-danger" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div id="expense-list">
+  <%= render "expenses/expense_table",
+        expenses: @expenses,
+        money_cycle: @money_cycle %>
 </div>
 
 <script>
