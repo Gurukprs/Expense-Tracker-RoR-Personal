@@ -1,0 +1,2 @@
+module MoneyCyclesHelper
+end
