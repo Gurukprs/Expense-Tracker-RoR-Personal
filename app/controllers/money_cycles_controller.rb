@@ -25,6 +25,11 @@ class MoneyCyclesController < ApplicationController
   end
 
   def show
+    @money_cycle = current_user
+                  .money_cycles
+                  .includes(:expenses, :incomes)
+                  .find(params[:id])
+                  
     @expenses = @money_cycle.expenses.order(date: :desc)
     @incomes = @money_cycle.incomes.order(date: :desc)
 
