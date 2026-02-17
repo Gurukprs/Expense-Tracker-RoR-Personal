@@ -6,14 +6,20 @@
   <h5>Balance: ₹<%= @money_cycle.balance.round(2) %></h5>
   <p>Average per Day: ₹<%= @money_cycle.average_per_day.round(2) %></p>
 
-  <% case @money_cycle.burn_rate_status %>
-    <% when "safe" %>
-      <span class="badge bg-success">Burn Rate: Safe</span>
-    <% when "moderate" %>
-      <span class="badge bg-warning text-dark">Burn Rate: Moderate</span>
-    <% when "danger" %>
-      <span class="badge bg-danger">Burn Rate: Danger</span>
-  <% end %>
+    <% case @money_cycle.burn_rate_status %>
+        <% when "safe" %>
+            <div class="alert alert-success mt-2">
+            🟢 You are spending safely.
+            </div>
+        <% when "moderate" %>
+            <div class="alert alert-warning mt-2">
+            🟡 Be cautious with spending.
+            </div>
+        <% when "danger" %>
+            <div class="alert alert-danger mt-2">
+            🔴 Spending too fast!
+            </div>
+    <% end %>
 </div>
 
 <div class="card p-3 mb-4">
@@ -44,10 +50,17 @@
         <%= f.number_field :amount, class: "form-control", placeholder: "Amount" %>
       </div>
       <div class="col">
-        <%= f.select :category, Expense::CATEGORIES, {}, class: "form-control" %>
-      </div>
-      <div class="col">
-        <%= f.text_field :custom_category, class: "form-control", placeholder: "Custom (if Others)" %>
+        <%= f.select :category, Expense::CATEGORIES, {}, 
+            class: "form-control", 
+            id: "category-select" %>
+        </div>
+
+        <div class="col" id="custom-category-field" style="display:none;">
+        <%= f.text_field :custom_category, 
+            class: "form-control", 
+            placeholder: "Custom Category" %>
+        </div>
+
       </div>
       <div class="col">
         <%= f.date_field :date, class: "form-control" %>
@@ -88,3 +101,21 @@
     </tbody>
   </table>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const categorySelect = document.getElementById("category-select");
+    const customField = document.getElementById("custom-category-field");
+
+    function toggleCustomField() {
+      if (categorySelect.value === "Others") {
+        customField.style.display = "block";
+      } else {
+        customField.style.display = "none";
+      }
+    }
+
+    toggleCustomField();
+    categorySelect.addEventListener("change", toggleCustomField);
+  });
+</script>
