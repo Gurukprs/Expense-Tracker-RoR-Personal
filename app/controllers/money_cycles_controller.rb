@@ -25,11 +25,21 @@ class MoneyCyclesController < ApplicationController
   end
 
   def show
+    @expenses = @money_cycle.expenses.order(date: :desc)
+    @incomes = @money_cycle.incomes.order(date: :desc)
+
+    @expense = @money_cycle.expenses.new
+    @income = @money_cycle.incomes.new
   end
 
   def close
     @money_cycle.update(status: :closed)
     redirect_to root_path, notice: "Cycle closed successfully."
+  end
+
+  def destroy 
+    @money_cycle.destroy
+    redirect_to root_path, notice: "Cycle deleted successfully."
   end
 
   private

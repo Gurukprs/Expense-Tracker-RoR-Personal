@@ -35,6 +35,11 @@
                 class: "btn btn-danger btn-sm",
                 data: { confirm: "Are you sure?" } %>
           <% end %>
+          
+          <%= button_to "Delete", money_cycle_path(cycle),
+            method: :delete, class: "btn btn-outline-danger btn-sm", 
+            data: { confirm: "Are you sure?" } 
+          %>
         </div>
       </div>
     </div>
