@@ -1,0 +1,20 @@
+<h2>New Money Cycle</h2>
+
+<%= form_with model: @money_cycle do |f| %>
+  <div class="mb-3">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :started_on %>
+    <%= f.date_field :started_on, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <label>Initial Amount (Home Money)</label>
+    <input type="number" name="money_cycle[initial_amount]" class="form-control" required>
+  </div>
+
+  <%= f.submit "Create Cycle", class: "btn btn-primary" %>
+<% end %>

@@ -1,2 +1,42 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Your Money Cycles</h2>
+  <%= link_to "New Cycle", new_money_cycle_path, class: "btn btn-success" %>
+</div>
+
+<div class="mb-4">
+  <div class="card p-3 shadow-sm">
+    <h5>Total Balance: ₹<%= @total_balance.round(2) %></h5>
+    <p>Overall Avg Per Day: ₹<%= @overall_avg.round(2) %></p>
+  </div>
+</div>
+
+<div class="row">
+  <% @money_cycles.each do |cycle| %>
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5><%= cycle.title %></h5>
+          <p>Status: 
+            <% if cycle.active? %>
+              <span class="badge bg-success">Active</span>
+            <% else %>
+              <span class="badge bg-secondary">Closed</span>
+            <% end %>
+          </p>
+
+          <p>Balance: ₹<%= cycle.balance.round(2) %></p>
+          <p>Avg/Day: ₹<%= cycle.average_per_day.round(2) %></p>
+
+          <%= link_to "View", money_cycle_path(cycle), class: "btn btn-primary btn-sm" %>
+
+          <% if cycle.active? %>
+            <%= link_to "Close", close_money_cycle_path(cycle),
+                method: :patch,
+                class: "btn btn-danger btn-sm",
+                data: { confirm: "Are you sure?" } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
