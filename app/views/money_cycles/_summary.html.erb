@@ -1,0 +1,21 @@
+<div class="card p-3 mb-4 shadow-sm">
+  <p>Total Income: ₹<%= @money_cycle.total_income.round(2) %></p>
+  <p>Total Expense: ₹<%= @money_cycle.total_expense.round(2) %></p>
+  <h5>Balance: ₹<%= @money_cycle.balance.round(2) %></h5>
+  <p>Average per Day: ₹<%= @money_cycle.average_per_day.round(2) %></p>
+
+    <% case @money_cycle.burn_rate_status %>
+        <% when "safe" %>
+            <div class="alert alert-success mt-2">
+            🟢 You are spending safely.
+            </div>
+        <% when "moderate" %>
+            <div class="alert alert-warning mt-2">
+            🟡 Be cautious with spending.
+            </div>
+        <% when "danger" %>
+            <div class="alert alert-danger mt-2">
+            🔴 Spending too fast!
+            </div>
+    <% end %>
+</div>

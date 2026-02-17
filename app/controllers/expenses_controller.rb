@@ -6,16 +6,30 @@ class ExpensesController < ApplicationController
     @expense = @money_cycle.expenses.new(expense_params)
 
     if @expense.save
-      redirect_to money_cycle_path(@money_cycle), notice: "Expense added!"
+      @expenses = @money_cycle.expenses.order(date: :desc)
+      respond_to do |format|
+        format.html { redirect_to money_cycle_path(@money_cycle), notice: "Expense added!" }
+        format.js
+      end
     else
-      redirect_to money_cycle_path(@money_cycle), alert: "Failed to add expense"
+      respond_to do |format|
+        format.html { redirect_to money_cycle_path(@money_cycle), alert: "Failed to add expense" }
+        format.js
+      end
     end
   end
 
   def destroy
     @expense = @money_cycle.expenses.find(params[:id])
     @expense.destroy
-    redirect_to money_cycle_path(@money_cycle), notice: "Expense deleted"
+    # redirect_to money_cycle_path(@money_cycle), notice: "Expense deleted"
+      @expenses = @money_cycle.expenses.order(date: :desc)
+
+    respond_to do |format|
+      format.html { redirect_to money_cycle_path(@money_cycle), notice: "Expense deleted" }
+      format.js
+    end
+
   end
 
   private
