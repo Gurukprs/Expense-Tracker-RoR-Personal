@@ -31,6 +31,18 @@ class ExpensesController < ApplicationController
     end
 
   end
+  def edit 
+    @expense = @money_cycle.expenses.find(params[:id])
+  end
+
+  def update 
+    @expense = @money_cycle.expenses.find(params[:id])
+    if @expense.update(expense_params)
+      redirect_to money_cycle_path(@expense.money_cycle), notice: "Expense updated!"
+    else
+      render :edit
+    end
+  end
 
   private
 

@@ -1,0 +1,41 @@
+<div class="card p-3 mb-4">
+  <h5>Edit Expense</h5>
+
+  <%= form_with model: [@money_cycle, @expense], remote: true do |f| %>
+    <div class="row g-2">
+      <div class="col-12 col-md">
+        <%= f.number_field :amount,
+              class: "form-control",
+              placeholder: "Amount",
+              required: true %>
+      </div>
+
+      <div class="col-12 col-md">
+        <%= f.select :category,
+              Expense::CATEGORIES,
+              {},
+              class: "form-control",
+              id: "category-select" %>
+      </div>
+
+      <div class="col-12 col-md"
+           id="custom-category-field"
+           style="display:none;">
+        <%= f.text_field :custom_category,
+              class: "form-control",
+              placeholder: "Custom Category" %>
+      </div>
+
+      <div class="col-12 col-md">
+        <%= f.date_field :date,
+              class: "form-control",
+              required: true %>
+      </div>
+
+      <div class="col-12 col-md-auto">
+        <%= f.submit "Add",
+              class: "btn btn-danger w-100" %>
+      </div>
+    </div>
+  <% end %>
+</div>

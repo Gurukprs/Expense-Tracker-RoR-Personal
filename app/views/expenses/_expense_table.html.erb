@@ -22,6 +22,9 @@
                 money_cycle_expense_path(@money_cycle, expense),
                 method: :delete,
                 class: "btn btn-sm btn-outline-danger" %>
+            <%= link_to "Edit",
+                edit_money_cycle_expense_path(@money_cycle, expense),
+                class: "btn btn-sm btn-outline-primary" %>
           </td>
         </tr>
       <% end %>
